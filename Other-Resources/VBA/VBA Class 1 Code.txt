@@ -1,0 +1,240 @@
+# Creates a "Sub" in which code can be written. Must have parenthesis and colon. 
+## MsgBox with text inside will create a pop-up message box when the macro is run.
+
+Sub HelloWorld():
+    MsgBox ("Hello Class")
+End Sub
+---------------------------------------------------------------------------------------------------
+# After creating a button (Developer->Insert->Button) you must create a macro to assign to the button. 
+## I created 4 macros that can be assigned to a single or multiple buttons with different results.
+
+Sub Button1_Click()
+    MsgBox ("You clicked me!")
+End Sub
+
+Sub Button2_Click()
+    MsgBox ("You clicked me again!")
+End Sub
+
+### Will return the value "4" when the button is clicked. If quotes are added around 2 + 2 then it will read "2 + 2")
+Sub Button3_Click()
+    MsgBox (2 + 2)
+End Sub
+
+#### Here I experiemented by not calling it "ButtonX_Click". It works without issue.
+Sub theButton()
+    MsgBox ("This is another sub routine. Can you see me?")
+End Sub
+-----------------------------------------------------------------------------------------------------
+# You can use the following to insert data into cells, ranges, or across ranges:
+
+Sub CellsAndRanges():
+    
+    ' Inserting Data Via Cells
+    Cells(2, 1).Value = "Cat"
+    Cells(2, 2).Value = "In"
+    Cells(2, 3).Value = "The"
+    Cells(2, 4).Value = "Hat"
+
+    ' Inserting Data Via Ranges
+    Range("F1").Value = "I"
+    Range("F2").Value = "Am"
+    Range("F3").Value = "Sam"
+
+    ' Inserting Data Across Ranges
+    Range("F5:F7") = 5
+
+## We figured out that you can use commas to add data to multiple ranges as well. 
+    
+    ' Inserting Data In Multiple Ranges
+    Range("A12, B12, C12").Value = "Test"	
+
+End Sub
+
+### This lesson also showed us that we could have multiple Subs in a module, and that you can "call" another sub. Test this by hitting run Macro in "First()" and then again in "Second()"
+Sub First():
+    MsgBox ("Help, I'm a Bug!")
+    Call Second
+End Sub
+
+Sub Second():
+    MsgBox ("Just Kidding")
+End Sub
+------------------------------------------------------------------------------
+# Below is how to define different sets of variables.
+## A decent explanation of variable types can be found here https://www.informit.com/articles/article.aspx?p=339929&seqNum=2
+
+Sub Variables():
+
+    ' Basic String Variable
+    ' ----------------------------------------
+    Dim name As String
+    name = "Gandalf"
+
+    MsgBox (name)
+
+    ' Basic String Concatenation (Combination)
+    ' ----------------------------------------
+    Dim title As String
+    title = "The Great"
+
+    Dim fullname As String
+    fullname = name + " " + title
+
+    MsgBox (fullname)
+
+    ' Basic Integer, Double, Long Variables
+    ' ----------------------------------------
+    Dim age1 As Integer
+    Dim age2 As Integer
+    age1 = 5
+    age2 = 10
+
+    Dim price As Double
+    Dim tax As Double
+    price = 19.99
+    tax = 0.05
+
+    Dim lightspeed As Long
+    lightspeed = 299792458
+
+    ' Basic Numeric manipulation
+    ' ----------------------------------------
+    MsgBox (age1 + age2)
+    Cells(1, 1).Value = price * (1 + tax)
+
+    ' String, Numeric Combination (Casting)
+    ' ----------------------------------------
+    MsgBox ("I am " + Str(age1) + " years old.")
+
+    ' Booleans
+    ' ----------------------------------------
+    Dim money_grows_on_trees As Boolean
+    money_grows_on_trees = False
+
+### Another way to return a string /numeric combination as I did in the Student Exercise Calculator:
+    
+    'set total value in spreadsheet and print message box
+    
+    total = (item_price + (item_price * tax_rate)) * quantity
+    Range("E2").Value = total
+    
+    'print message with total
+    
+    Dim message As String
+    Dim totaltext As String
+    message = "Your total is $"
+    totaltext = total
+    MsgBox (message + totaltext)
+
+
+End Sub
+----------------------------------------------------------------------------------------------------
+# Arrays must all be the same variable type (string, integer, etc). Reminder that the first position in an array is 0, not 1.
+Sub SimpleArrays():
+    
+    ' Basic Array Example
+    ' ------------------------------------------
+    ' Create the Ingredients Array
+    Dim Ingredients(5) As String
+
+    ' Add Ingredients to the Array
+    Ingredients(0) = "Chocolate Bar"
+    Ingredients(1) = "Peanut Butter"
+    Ingredients(2) = "Jelly"
+    Ingredients(3) = "Macaroni"
+    Ingredients(4) = "Potato Salad"
+    Ingredients(5) = "Dragonfruit"
+
+    ' Retrieve specific elements of the array
+    MsgBox (Ingredients(4))
+    MsgBox (Ingredients(0))
+
+End Sub
+-----------------------------------------------------------------------------------------------------------
+# You can split a string of text using the following code:
+
+Sub SimpleArrays():
+    
+    ' String Splitting Example
+    ' ------------------------------------------
+    Dim Words() As String
+    Dim Shakespeare As String
+    Shakespeare = "To be or not to be. That is the question"
+
+    ' Break apart the Shakespeare quote into individual words
+    Words = Split(Shakespeare, " ")
+
+## Note in the Split() above, the " " indicates you are splitting the string at every blank cell. Try subsitiuting hyphens throughout the string and then change the code to "-".
+
+    ' Print individual word
+    MsgBox (Words(5))
+
+End Sub
+
+### We then used the following to split an existing string in cell B1 and identify various word numbers in the sentence.
+Sub words():
+ ' Assign the sentence as a string
+ Dim v_sentence As String
+ v_sentence = Range("B1").Text
+ MsgBox (v_sentence)
+ 'Capture the words provided
+ Dim v_word1, v_word2, v_word3 As Integer
+ v_word1 = Range("A4")
+ v_word2 = Range("A5")
+ v_word3 = Range("A6")
+ 
+ 'split a string
+ Dim v_splitstring() As String
+ v_splitstring = Split(v_sentence, " ")
+ 
+ MsgBox (v_splitstring(v_word1 - 1))
+ MsgBox (v_splitstring(v_word2 - 1))
+ MsgBox (v_splitstring(v_word3 - 1))
+ 
+ 'Assign split string to cells
+ Range("B4") = v_splitstring(v_word1 - 1)
+ Range("B5") = v_splitstring(v_word2 - 1)
+ Range("B6") = v_splitstring(v_word3 - 1)
+ 
+End Sub
+--------------------------------------------------------------------------------------------------------------
+# We didn't get to VBA conditionals in class yet, but here is the code. It is applied the same way as in Excel functions, just the lagnuage is written differently.
+## We should end our If statements with "End If"
+
+Sub Conditionals():
+
+    ' Simple Conditional Example
+    ' ------------------------------------------
+    If Range("A2").Value > Range("B2").Value Then
+        MsgBox ("Num 1 is greater than Num 2")
+    End If
+
+    ' Simple Conditional with If, Else, and Elseif
+    ' ------------------------------------------
+    If Range("A5").Value > Range("B5").Value Then
+        MsgBox ("Num 3 is greater than Num 4")
+
+    ElseIf Range("A5").Value < Range("B5").Value Then
+        MsgBox ("Num 4 is greater than Num 3")
+
+    Else
+        MsgBox ("Num 3 and Num 4 are equal")
+
+    End If
+
+    ' Conditional with Operators (And)
+    ' ------------------------------------------
+    If (Range("A8").Value > Range("C8").Value And Range("B8").Value > Range("C8").Value) Then
+        MsgBox ("Both Num 5 and Num 6 are greater than Num 7")
+    End If
+
+    ' Conditional with Operators (OR)
+    ' ------------------------------------------
+    If (Range("A8").Value > Range("C8").Value Or Range("B8").Value > Range("C8").Value) Then
+        MsgBox ("Either Num 5 and/or Num 6 is greater than Num 7")
+    End If
+
+End Sub
+
+
